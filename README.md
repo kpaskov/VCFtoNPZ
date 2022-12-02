@@ -44,6 +44,14 @@ The `chr.[chrom].[batch_num].gen.variants.txt.gz` contains the first 8 columns o
 
 
 ## Instructions for running code
+
+### Python package dependencies
+- pysam
+- numpy
+- scipy.sparse
+- gzip
+- json
+
 1. Create an output directory. Then create a subdirectory within that directory named genotypes. 
 
 2. Run `python preprocessing/pull_gen_data.py [vcf_file] [assembly] [output_dir] [chrom]`
