@@ -48,13 +48,13 @@ The `chr.[chrom].[batch_num].gen.variants.txt.gz` contains the first 8 columns o
 
 2. Run `python preprocessing/pull_gen_data.py [vcf_file] [assembly] [output_dir] [chrom]`
 
-If you have a large WGS dataset, it may be more convenient to break the data into batches using the `--batch_size` and `--batch_num` flags
+If you have a large WGS dataset, it may be more convenient to break the data into batches using the `--batch_size` and `--batch_num` flags.
 
-3. If your VCF files don't have filters applied (for example no variant is PASS) or you'd like to apply a different type of filter for downstream analysis, use 
+3. If your VCF files don't have filters applied (for example no variant is PASS) or you'd like to apply a different type of filter for downstream analysis, you can rewrite the is_pass column (4th column) of the `chr.[chrom].[batch_num].gen.coordinates.npy` files using 
 
-`python preprocessing/pull_pass.py [data_dir (output directory from above command)]`
+`python preprocessing/pull_pass.py [data_dir]`
 
-which has options 
-`--pass_from_gen [ped_file]` (passes variants on autosomes with <10% missing, passes variants on Y with <20% missing in males, passes variants on X with <10% missing in females and <20% missing in males)
-`--pass_all` (passes all variants)
-`--pass_from_qual [cutoff]` (passes variants whose QUAL score is better than cutoff)
+The scirpt has options 
+- `--pass_from_gen [ped_file]` which passes variants on autosomes with <10% missing, passes variants on Y with <20% missing in males, passes variants on X with <10% missing in females and <20% missing in males
+- `--pass_all` which passes all variants
+- `--pass_from_qual [cutoff]` which passes variants whose QUAL score is better than cutoff)
