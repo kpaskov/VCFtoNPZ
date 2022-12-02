@@ -1,4 +1,4 @@
-# VCFtoNPZ1.
+# VCFtoNPZ
 
 ## Purpose
 The purpose of this code is to pull .vcf data into a custom numpy format. 
