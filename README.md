@@ -54,7 +54,7 @@ If you have a large WGS dataset, it may be more convenient to break the data int
 
 `python preprocessing/pull_pass.py [data_dir]`
 
-The scirpt has options 
+The script has options 
 - `--pass_from_gen [ped_file]` which passes variants on autosomes with <10% missing, passes variants on Y with <20% missing in males, passes variants on X with <10% missing in females and <20% missing in males
 - `--pass_all` which passes all variants
 - `--pass_from_qual [cutoff]` which passes variants whose QUAL score is better than cutoff)
