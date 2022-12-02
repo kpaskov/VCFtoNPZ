@@ -18,7 +18,7 @@ For ease of manipulation, the code gives the option to separate each chromosome 
 
 The code populates a directory (which we call `data_dir` in this documentation) with the following structure.
 
-`data_dir
+```data_dir
 - genotypes
 - - info.json
 - - samples.json
@@ -28,7 +28,7 @@ The code populates a directory (which we call `data_dir` in this documentation) 
 - - chr.2.0.gen.npz
 - - chr.2.0.gen.coordinates.npy
 - - chr.2.0.gen.variants.txt.gz
-...`
+...```
 
 The `info.json` file contains metadata including the reference assembly (GRch37 or GRch38) used to produce the variant calss, the vcf_directory used to generate the data, and if relevant the batch_size used to generate the data.
 
