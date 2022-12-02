@@ -46,13 +46,9 @@ The `chr.[chrom].[batch_num].gen.variants.txt.gz` contains the first 8 columns o
 ## Instructions for running code
 1. Create an output directory. Then create a subdirectory within that directory named genotypes. 
 
-2. Run 
+2. Run `python preprocessing/pull_gen_data.py [vcf_file] [assembly] [output_dir] [chrom]`
 
-`python preprocessing/pull_gen_data.py [vcf_file] [assembly] [output_dir] [chrom]`
-
-If you have a large WGS dataset, it may be more convenient to break the data into batches using the following flags
-`--batch_size`
-`--batch_num`
+If you have a large WGS dataset, it may be more convenient to break the data into batches using the `--batch_size` and `--batch_num` flags
 
 3. If your VCF files don't have filters applied (for example no variant is PASS) or you'd like to apply a different type of filter for downstream analysis, use 
 
