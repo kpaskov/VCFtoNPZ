@@ -16,7 +16,7 @@ This code starts with VCF files (with accompanying .tbi files), split by chromos
 
 For ease of manipulation, the code gives the option to separate each chromosome into batches by genomic position. For example, files can be broken up such that each file represents a 10Mbp chunk of the chromosome.
 
-The code populates a directory (which we call data_dir in this documentation) with the following structure.
+The code populates a directory (which we call `data_dir` in this documentation) with the following structure.
 
 `data_dir
 - genotypes
