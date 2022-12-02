@@ -32,7 +32,7 @@ data_dir
 ...
 ```
 
-The `info.json` file contains metadata including the reference assembly (GRch37 or GRch38) used to produce the variant calss, the vcf_directory used to generate the data, and if relevant the batch_size used to generate the data.
+The `info.json` file contains metadata including the reference assembly (GRch37 or GRch38) used to produce the variant calls, the vcf_directory used to generate the data, and if relevant the batch_size used to generate the data.
 
 The `samples.json` file contains an ordered list of the samples contained in the dataset.
 
