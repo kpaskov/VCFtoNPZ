@@ -9,10 +9,10 @@ VCF files are compressed text files, often with an index (accompanying .tbi file
 ## Input and output
 This code starts with VCF files (with accompanying .tbi files), split by chromosome. It then produces numpy sparse matrix files containing the variant call for every individual at every position. The entries of this sparse matrix are
 
--1 represents ./. variant call
-0 represents 0/0 variant call
-1 represents 0/1 variant call
-2 represents 1/1 variant call
+- -1 represents ./. variant call
+- 0 represents 0/0 variant call
+- 1 represents 0/1 variant call
+- 2 represents 1/1 variant call
 
 For ease of manipulation, the code gives the option to separate each chromosome into batches by genomic position. For example, files can be broken up such that each file represents a 10Mbp chunk of the chromosome.
 
