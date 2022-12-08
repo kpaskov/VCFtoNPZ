@@ -8,7 +8,7 @@ parser.add_argument('data_dir', type=str, help='Directory containing genotype da
 parser.add_argument('file_type', type=str, help='Type of file to check.')
 args = parser.parse_args()
 
-chroms = [str(x) for x in range(1, 23)]
+chroms = [str(x) for x in range(1, 23)] + ['X', 'Y']
 
 # grab assembly
 with open('%s/info.json' % args.data_dir, 'r') as f:
