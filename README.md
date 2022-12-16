@@ -47,11 +47,11 @@ The `chr.[chrom].[batch_num].gen.variants.txt.gz` contains the first 8 columns o
 
 Python package dependencies: pysam, numpy, scipy.sparse, gzip, json
 
-1. Create an output directory. Then create a subdirectory within that directory named genotypes. 
+1. Create an output directory (which we call data_dir below).
 
-2. Run `python preprocessing/pull_gen_data.py [vcf_file] [assembly] [output_dir] [chrom]`
+2. Run `python preprocessing/pull_gen_data.py [vcf_file] [assembly] [data_dir] [chrom]`
 
-If you have a large WGS dataset, it may be more convenient to break the data into batches using the `--batch_size` and `--batch_num` flags. The `--maxsize` argument determines the maximum number of non homref genotypes within the block across all individuals. The default setting should work for most applications, but may need to be made larger for large cohorts.
+If you have a large WGS dataset, it may be more convenient to break the data into batches using the `--batch_size` and `--batch_num` flags. These arguments break the chromosome into chunks of size `batch_size`. The `--maxsize` argument determines the maximum number of non homref genotypes within the block across all individuals. The default setting should work for most applications, but may need to be increased for large cohorts.
 
 3. If your VCF files don't have filters applied (for example no variant is PASS) or you'd like to apply a different type of filter for downstream analysis, you can rewrite the is_pass column (4th column) of the `chr.[chrom].[batch_num].gen.coordinates.npy` files using 
 
