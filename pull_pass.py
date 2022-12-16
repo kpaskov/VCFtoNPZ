@@ -28,7 +28,7 @@ def calculate_af_and_percent_miss(gen_file, indices=None):
     # load genotypes
 
     # Pull data together
-    A = sparse.load_npz('%s/%s' % (data_dir, gen_file))
+    A = sparse.load_npz('%s/genotypes/%s' % (data_dir, gen_file))
 
     if indices is None:
         indices = np.ones((A.shape[0]), dtype=bool)
@@ -48,16 +48,16 @@ def calculate_af_and_percent_miss(gen_file, indices=None):
 for chrom in chroms:
     print(chrom, end=' ')
 
-    gen_files = sorted([f for f in listdir(data_dir) if ('chr.%s.' % chrom) in f and 'gen.npz' in f])
+    gen_files = sorted([f for f in listdir('%s/genotypes' % data_dir) if ('chr.%s.' % chrom) in f and 'gen.npz' in f])
     for gen_file in gen_files:
         batch_num = int(gen_file.split('.')[2])
 
         # pull snp positions
-        pos_data = np.load('%s/chr.%s.%d.gen.coordinates.npy' % (data_dir, chrom, batch_num))
+        pos_data = np.load('%s/genotypes/chr.%s.%d.gen.coordinates.npy' % (data_dir, chrom, batch_num))
         
         if pass_from_gen:
             # pull male/female indices
-            with open('%s/samples.json' % data_dir, 'r') as f:
+            with open('%s/genotypes/samples.json' % data_dir, 'r') as f:
                 sample_ids = json.load(f)
 
             sample_id_to_sex = dict()
@@ -87,14 +87,14 @@ for chrom in chroms:
             is_pass = np.ones((pos_data.shape[0],), dtype=bool)
         elif pass_from_qual:
             is_pass = []
-            with gzip.open('%s/chr.%s.%d.gen.variants.txt.gz' % (data_dir, chrom, batch_num), 'rt') as f:
+            with gzip.open('%s/genotypes/chr.%s.%d.gen.variants.txt.gz' % (data_dir, chrom, batch_num), 'rt') as f:
                 for line in f:
                     pieces = line.strip().split('\t')
                     is_pass.append(int(pieces[5]) >= cutoff)
             is_pass = np.array(is_pass)
         else:
             is_pass = []
-            with gzip.open('%s/chr.%s.%d.gen.variants.txt.gz' % (data_dir, chrom, batch_num), 'rt') as f:
+            with gzip.open('%s/genotypes/chr.%s.%d.gen.variants.txt.gz' % (data_dir, chrom, batch_num), 'rt') as f:
                 for line in f:
                     pieces = line.strip().split('\t')
                     is_pass.append(pieces[6] == 'PASS')
@@ -103,5 +103,5 @@ for chrom in chroms:
         print(np.sum(is_pass), np.sum(is_pass)/is_pass.shape[0])
 
         chrom_int = 23 if chrom == 'X' else 24 if chrom == 'Y' else int(chrom)
-        np.save('%s/chr.%s.%d.gen.coordinates.npy' % (data_dir, chrom, batch_num), np.hstack((chrom_int*np.ones((pos_data.shape[0], 1), dtype=int), pos_data[:, 1:3], is_pass[:, np.newaxis])))
+        np.save('%s/genotypes/chr.%s.%d.gen.coordinates.npy' % (data_dir, chrom, batch_num), np.hstack((chrom_int*np.ones((pos_data.shape[0], 1), dtype=int), pos_data[:, 1:3], is_pass[:, np.newaxis])))
 
