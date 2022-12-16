@@ -24,6 +24,9 @@ parser.add_argument('--old_id_index', type=int, default=0, help='Index of old_id
 parser.add_argument('--new_id_index', type=int, default=1, help='Index of new_id in id_mapper_file.')
 args = parser.parse_args()
 
+if not os.path.exists('%s/genotypes' % args.out_directory):
+    os.makedirs('%s/genotypes' % args.out_directory)
+
 t0 = time.time()
 
 chrom_int = 23 if args.chrom == 'X' else 24 if args.chrom == 'Y' else 25 if args.chrom == 'MT' else int(args.chrom)
@@ -42,7 +45,7 @@ def process_header(vcf):
                     old_id_to_new_id[pieces[args.old_id_index]] = pieces[args.new_id_index]
         sample_ids = [old_id_to_new_id[x] for x in sample_ids]
 
-    sample_file = '%s/samples.json' % args.out_directory
+    sample_file = '%s/genotypes/samples.json' % args.out_directory
     if os.path.isfile(sample_file):
         with open(sample_file, 'r') as f:
             stored_sample_ids = json.load(f)
@@ -58,7 +61,7 @@ def process_body(records, sample_ids):
     data, indices, indptr, index = np.zeros((args.maxsize,), dtype=np.int8), np.zeros((args.maxsize,), dtype=int), [0], 0
     chrom_coord = []
 
-    with gzip.open('%s/chr.%s.%d.gen.variants.txt.gz' % (args.out_directory, args.chrom, args.batch_num), 'wt') as variant_f:
+    with gzip.open('%s/genotypes/chr.%s.%d.gen.variants.txt.gz' % (args.out_directory, args.chrom, args.batch_num), 'wt') as variant_f:
         for line in records:
             pieces = line.strip().split('\t')
             fmt = pieces[8].strip().split(':')
@@ -87,11 +90,11 @@ def process_body(records, sample_ids):
     gen = csc_matrix((data[:index], indices[:index], indptr), shape=(len(sample_ids), len(indptr)-1), dtype=np.int8)
 
     # Save to file
-    save_npz('%s/chr.%s.%d.gen' % (args.out_directory, args.chrom, args.batch_num), gen)
-    np.save('%s/chr.%s.%d.gen.coordinates' % (args.out_directory, args.chrom, args.batch_num), np.asarray(np.asarray(chrom_coord, dtype=int), dtype=int))
+    save_npz('%s/genotypes/chr.%s.%d.gen' % (args.out_directory, args.chrom, args.batch_num), gen)
+    np.save('%s/genotypes/chr.%s.%d.gen.coordinates' % (args.out_directory, args.chrom, args.batch_num), np.asarray(np.asarray(chrom_coord, dtype=int), dtype=int))
     print('Completed in ', time.time()-t0, 'sec')
 
-with open('%s/info.json' % args.out_directory, 'w+') as f:
+with open('%s/genotypes/info.json' % args.out_directory, 'w+') as f:
     json.dump({'assembly': args.assembly, 'batch_size': args.batch_size, 'vcf_directory': '/'.join(args.vcf_file.split('/')[:-1])}, f)
 
 vcf = VariantFile(args.vcf_file)
