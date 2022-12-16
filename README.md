@@ -51,7 +51,7 @@ Python package dependencies: pysam, numpy, scipy.sparse, gzip, json
 
 2. Run `python preprocessing/pull_gen_data.py [vcf_file] [assembly] [output_dir] [chrom]`
 
-If you have a large WGS dataset, it may be more convenient to break the data into batches using the `--batch_size` and `--batch_num` flags.
+If you have a large WGS dataset, it may be more convenient to break the data into batches using the `--batch_size` and `--batch_num` flags. The `--maxsize` argument determines the maximum number of non homref genotypes within the block across all individuals. The default setting should work for most applications, but may need to be made larger for large cohorts.
 
 3. If your VCF files don't have filters applied (for example no variant is PASS) or you'd like to apply a different type of filter for downstream analysis, you can rewrite the is_pass column (4th column) of the `chr.[chrom].[batch_num].gen.coordinates.npy` files using 
 
