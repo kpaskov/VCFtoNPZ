@@ -19,7 +19,7 @@ For ease of manipulation, the code gives the option to separate each chromosome 
 The code populates a directory (which we call `data_dir` in this documentation) with the following structure.
 
 ```
-data_dir
+[data_dir]
 - genotypes
 - - info.json
 - - samples.json
