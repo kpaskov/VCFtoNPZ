@@ -63,7 +63,7 @@ If you have a large WGS dataset, it may be more convenient to break the data int
 If your VCF files don't have filters applied (for example no variant is PASS) or you'd like to apply a different type of filter for downstream analysis, you can rewrite the is_pass column (4th column) of the `chr.[chrom].[batch_num].gen.coordinates.npy` files using 
 
 ```
-python preprocessing/pull_pass.py [data_dir]
+python pull_pass.py [data_dir]
 ```
 
 The script has options 
