@@ -59,14 +59,6 @@ python pull_gen_data.py [vcf_file] [assembly] [data_dir] [chrom]
 
 If you have a large WGS dataset, it may be more convenient to break the data into batches using the `--batch_size` and `--batch_num` flags. These arguments break the chromosome into chunks of size `batch_size`. The `--maxsize` argument determines the maximum number of non homref genotypes within the block across all individuals. The default setting should work for most applications, but may need to be increased for large cohorts.
 
-After running the above script for all chromosomes, you can check that everything ran smoothly using
-
-```
-python check_pull_complete.py [data_dir]/genotypes gen.npz
-```
-
-This script will flag any missing files in `[data_dir]/genotypes`.
-
 ### 3. Modify PASS filter if needed.
 If your VCF files don't have filters applied (for example no variant is PASS) or you'd like to apply a different type of filter for downstream analysis, you can rewrite the is_pass column (4th column) of the `chr.[chrom].[batch_num].gen.coordinates.npy` files using 
 
