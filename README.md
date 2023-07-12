@@ -54,7 +54,7 @@ Python package dependencies: pysam, numpy, scipy.sparse, gzip, json
 
 Run
 ```
-python preprocessing/pull_gen_data.py [vcf_file] [assembly] [data_dir] [chrom]
+python pull_gen_data.py [vcf_file] [assembly] [data_dir] [chrom]
 ```
 
 If you have a large WGS dataset, it may be more convenient to break the data into batches using the `--batch_size` and `--batch_num` flags. These arguments break the chromosome into chunks of size `batch_size`. The `--maxsize` argument determines the maximum number of non homref genotypes within the block across all individuals. The default setting should work for most applications, but may need to be increased for large cohorts.
