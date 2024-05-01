@@ -58,7 +58,7 @@ def process_header(vcf):
     return sample_ids, vcf.header.contigs
 
 
-def process_body(records, sample_ids):
+def process_body(batch_num, records, sample_ids):
 
     data, indices, indptr, index = np.zeros((args.maxsize,), dtype=bool), np.zeros((args.maxsize,), dtype=int), [0], 0
 
@@ -94,7 +94,7 @@ def process_body(records, sample_ids):
     fil = csc_matrix((data[:index], indices[:index], indptr), shape=(len(sample_ids), len(indptr)-1), dtype=bool)
 
     # Save to file
-    save_npz('%s/filters/%s/chr.%s.%d.gen' % (args.data_dir, args.chrom, info['batch_num']), fil)
+    save_npz('%s/filters/%s/chr.%s.%d.gen' % (args.data_dir, args.chrom, batch_num), fil)
 
 with open('%s/filters/%s/info.json' % (args.data_dir, args.name), 'w+') as f:
     json.dump(vars(args), f, indent=4)
@@ -118,12 +118,13 @@ if np.all([os.path.isfile(vcf_file + '.tbi') for vcf_file in vcf_files]):
     vcfs = [TabixFile(vcf_file, parser=None) for vcf_file in vcf_files]
 
     if info['batch_size'] != -1:
-        start_pos, end_pos = info['batch_num']*info['batch_size'], (info['batch_num']+1)*info['batch_size']
-        print('Interval', start_pos, end_pos)
-        if start_pos < contig.length:
-            process_body(itertools.chain(*[vcf.fetch(reference=contig.name, start=start_pos, end=end_pos) for vcf in vcfs]), sample_ids)
-        else:
-            print('Interval (%d-%d) is longer than chromosome (length=%d).' % (start_pos, end_pos, contig.length))
+        for batch_num in range(25):
+            start_pos, end_pos = batch_num*info['batch_size'], (batch_num+1)*info['batch_size']
+            print('Interval', start_pos, end_pos)
+            if start_pos < contig.length:
+                process_body(batch_num, itertools.chain(*[vcf.fetch(reference=contig.name, start=start_pos, end=end_pos) for vcf in vcfs]), sample_ids)
+            else:
+                print('Interval (%d-%d) is longer than chromosome (length=%d).' % (start_pos, end_pos, contig.length))
     else:
         process_body(itertools.chain(*[vcf.fetch(reference=contig.name) for vcf in vcfs]), sample_ids)
 else:
