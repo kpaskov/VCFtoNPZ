@@ -77,6 +77,7 @@ def process_body(batch_num, records, sample_ids):
         for i, piece in enumerate(pieces[9:]):
             segment = piece.split(':', maxsplit=gen_index+1)
             if segment[gen_index] == '0/1' or segment[gen_index] == '0|1' or segment[gen_index] == '1|0':
+                print(gen_index, dp_index, ab_index, gq_index, len(segment))
                 is_ok = True
                 if (args.DP is not None) and ((segment[dp_index] == '.') or (int(segment[dp_index]) < args.DP)):
                     is_ok = False
