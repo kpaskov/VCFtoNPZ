@@ -19,7 +19,7 @@ For ease of manipulation, the code gives the option to separate each chromosome 
 The code populates a directory (which we call `data_dir` in this documentation) with the following structure.
 
 ```
-data_dir
+[data_dir]
 - genotypes
 - - info.json
 - - samples.json
@@ -47,15 +47,24 @@ The `chr.[chrom].[batch_num].gen.variants.txt.gz` contains the first 8 columns o
 
 Python package dependencies: pysam, numpy, scipy.sparse, gzip, json
 
-1. Create an output directory (which we call data_dir below).
+### 1. Create an output directory
+(which we call data_dir below).
 
-2. Run `python preprocessing/pull_gen_data.py [vcf_file] [assembly] [data_dir] [chrom]`
+### 2. Pull variant calls from VCF
+
+Run
+```
+python pull_gen_data.py [vcf_file] [assembly] [data_dir] [chrom]
+```
 
 If you have a large WGS dataset, it may be more convenient to break the data into batches using the `--batch_size` and `--batch_num` flags. These arguments break the chromosome into chunks of size `batch_size`. The `--maxsize` argument determines the maximum number of non homref genotypes within the block across all individuals. The default setting should work for most applications, but may need to be increased for large cohorts.
 
-3. If your VCF files don't have filters applied (for example no variant is PASS) or you'd like to apply a different type of filter for downstream analysis, you can rewrite the is_pass column (4th column) of the `chr.[chrom].[batch_num].gen.coordinates.npy` files using 
+### 3. Modify PASS filter if needed.
+If your VCF files don't have filters applied (for example no variant is PASS) or you'd like to apply a different type of filter for downstream analysis, you can rewrite the is_pass column (4th column) of the `chr.[chrom].[batch_num].gen.coordinates.npy` files using 
 
-`python preprocessing/pull_pass.py [data_dir]`
+```
+python pull_pass.py [data_dir]
+```
 
 The script has options 
 - `--pass_from_gen [ped_file]` which passes variants on autosomes with <10% missing, passes variants on Y with <20% missing in males, passes variants on X with <10% missing in females and <20% missing in males
